@@ -30,7 +30,7 @@ This project implements an **end-to-end Retrieval-Augmented Generation (RAG) pip
 
 ---
 
-## 🏗️ Architecture (Based on Diagram)
+## 🏗️ Architecture ![Based on Diagram](https://github.com/chaithanyakasi27/RAG-Generative-AI-Workflow-with-AWS-Bedrock/blob/main/diagram-export-8-16-2025-1_18_08-PM.png?raw=true)
 
 1. **User Interaction**
    - Access via Streamlit App (`app.py`) or CLI
