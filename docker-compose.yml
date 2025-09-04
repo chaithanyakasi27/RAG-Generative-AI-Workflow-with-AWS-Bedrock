@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  bedrock-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bedrock_genai_app
+    ports:
+      - "8501:8501"
+    environment:
+      # --- Streamlit ---
+      STREAMLIT_SERVER_PORT: "8501"
+      STREAMLIT_SERVER_HEADLESS: "true"
+      STREAMLIT_BROWSER_GATHER_USAGE_STATS: "false"
+
+      # --- AWS / Bedrock ---
+      # Option A: use default chain (env vars). Uncomment and set if you prefer env-based credentials.
+      # AWS_ACCESS_KEY_ID:
+      # AWS_SECRET_ACCESS_KEY:
+      # AWS_SESSION_TOKEN:
+      AWS_DEFAULT_REGION: "us-east-1"
+
+      # Option B: use shared credentials via mounted ~/.aws with AWS_PROFILE
+      AWS_PROFILE: "default"
+
+    volumes:
+      # Persist vector index + docstore
+      - ./vector_store:/app/vector_store
+      # Persist generated images
+      - ./output_images:/app/output_images
+      # Optional: seed / persist docs
+      - ./data:/app/data
+      # Optional: mount your host AWS credentials (read-only)
+      - ~/.aws:/root/.aws:ro
+
+    # If you want to pass a .env file as well, uncomment:
+    # env_file:
+    #   - .env
+
+    # Streamlit is just a web server; restart unless stopped
+    restart: unless-stopped
+    
